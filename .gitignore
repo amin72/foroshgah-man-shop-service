@@ -1,0 +1,71 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.class
+
+# C extensions
+*.so
+
+# Virtual environment
+env/
+venv/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+
+# Editor and IDE settings
+.vscode/
+.idea/
+*.swp
+*~
+
+# Database files
+*.db
+*.sqlite3
+
+# Pytest cache
+.pytest_cache/
+.tox/
+.coverage
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Tortoise ORM migrations
+alembic/versions/
+
+# Docker files
+*.log
+*.env
+docker-compose.override.yml
+
+# MySQL, Postgres
+*.pid
+*.seed
+*.sql
+*.sql.gz
+
+# Logs and local environment files
+*.log
+logs/
+.env
+.env.*
+
+# OSX
+.DS_Store
+
+# Others
+*.bak
+*.orig
+*.rej
+*~
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+notes
+tasks
+
