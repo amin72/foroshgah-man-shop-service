@@ -1,0 +1,68 @@
+[tool.aerich]
+tortoise_orm = "app.core.config.TORTOISE_ORM"
+location = "./migrations"
+src_folder = "./."
+
+
+[tool.mypy]
+strict = true
+exclude = ["venv", ".venv", "migrations"]
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "ARG001", # unused arguments in functions
+    "F841",
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "B904",  # Allow raising exceptions without from e, for HTTPException
+]
+
+fixable = ["I001"] # automatically sort imports
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
+
+
+[tool.ruff.format]
+quote-style = "double"
+preview = true
+
+
+[tool.poetry]
+name = "shop service"
+version = "1.0.0"
+description = "Shop service"
+authors = ["Amin <aminasa72@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+fastapi-cli = "^0.0.5"
+pydantic-settings = "^2.5.2"
+structlog = "^24.4.0"
+slowapi = "^0.1.9"
+tortoise-orm = "^0.21.6"
+fastapi-structlog = "^0.5.0"
+pre-commit = "^3.8.0"
+ulid-py = "^1.1.0"
+aerich = "^0.7.2"
+asyncpg = "^0.29.0"
