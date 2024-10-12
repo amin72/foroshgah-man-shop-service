@@ -6,7 +6,7 @@ from .base import BaseModel
 class Shop(BaseModel):
     """Model to represent shops."""
 
-    name = fields.CharField(max_length=200, index=True)
+    name = fields.CharField(max_length=200, index=True, null=True)
     owner_id = fields.CharField(index=True, max_length=26)
 
     class Meta:
