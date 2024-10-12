@@ -7,27 +7,17 @@ services:
     ports:
       - "8101:8000"
     depends_on:
-      - db
-      # - redis
+      shop-db:
+        condition: service_healthy
     volumes:
       - .:/app
     networks:
-      - foroshgahman-shop-service-network
+      - foroshgahman-microservices
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      DEBUG: ${DEBUG}
 
-  # redis:
-  # image: "redis:alpine"
-  # container_name: shop-service-redis
-  # volumes:
-  # - redis-data:/data
-  # networks:
-  # - foroshgahman-shop-service-network
-  # healthcheck:
-  # test: ["CMD", "redis-cli", "ping"]
-  # interval: 10s
-  # timeout: 5s
-  # retries: 5
-
-  db:
+  shop-db:
     image: postgres:17
     container_name: shop-service-db
     deploy:
@@ -43,9 +33,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_PORT: ${POSTGRES_PORT}
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data2:/var/lib/postgresql/data
     networks:
-      - foroshgahman-shop-service-network
+      - foroshgahman-microservices
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
@@ -53,8 +43,8 @@ services:
       retries: 5
 
 volumes:
-  postgres-data:
-  # redis-data:
+  postgres-data2:
 
 networks:
-  foroshgahman-shop-service-network:
+  foroshgahman-microservices:
+    external: true
