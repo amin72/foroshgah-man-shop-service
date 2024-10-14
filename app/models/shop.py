@@ -16,6 +16,8 @@ class Shop(BaseModel):
 
     mobile = fields.CharField(max_length=11, null=True)
 
+    is_physical = fields.BooleanField(default=False)
+
     class Meta:
         table = "shops"
 
