@@ -3,7 +3,7 @@ find . -name "*.pyc" -exec rm -f {} \;
 
 # Init database
 echo "\nInitializing database...\n"
-poetry run aerich init -t app.core.config.TORTOISE_ORM 
+poetry run aerich init -t app.core.config.TORTOISE_ORM
 
 # Apply migrations
 echo "\nApplying migrations...\n"
