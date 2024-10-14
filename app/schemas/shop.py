@@ -7,6 +7,8 @@ class ShopUpdate(BaseModel):
     description: str | None = None
     mobile: str | None = None
     address: str | None = None
+    is_physical: bool | None = None
+    category_id: str | None = None
 
     @field_validator("name")
     def validate_name(cls, value: str) -> str:
@@ -33,6 +35,8 @@ class ShopUpdate(BaseModel):
                     "description": "Shop description",
                     "mobile": "09301111111",
                     "address": "Shop address",
+                    "is_physical": True,
+                    "category_id": "01F8MECHZX3TBDSZ7XRADM79XV",
                 }
             ]
         }
