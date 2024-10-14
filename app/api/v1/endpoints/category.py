@@ -15,5 +15,5 @@ async def list_category_api(
 ) -> list[CategoryRead]:
     """List of categories"""
 
-    categories = await Category.all()
+    categories = await Category.filter(is_active=True)
     return categories
