@@ -18,6 +18,10 @@ class Shop(BaseModel):
 
     is_physical = fields.BooleanField(default=False)
 
+    category = fields.ForeignKeyField(
+        "models.Category", related_name="shops", on_delete=fields.SET_NULL, null=True
+    )
+
     class Meta:
         table = "shops"
 

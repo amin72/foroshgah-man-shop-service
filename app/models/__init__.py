@@ -1,3 +1,7 @@
 from .shop import Shop
+from .category import Category
 
-__all__ = ("Shop",)
+__all__ = (
+    "Shop",
+    "Category",
+)
