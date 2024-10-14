@@ -9,6 +9,8 @@ class Category(BaseModel):
     title = fields.CharField(max_length=200, index=True)
     slug = fields.CharField(max_length=200, index=True)
 
+    is_active = fields.BooleanField(default=True)
+
     class Meta:
         table = "categories"
 
