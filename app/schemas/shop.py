@@ -2,6 +2,30 @@ import phonenumbers
 from pydantic import BaseModel, field_validator
 
 
+class ShopReadPrivate(BaseModel):
+    name: str | None
+    description: str | None
+    mobile: str | None
+    address: str | None
+    is_physical: bool | None
+    category_id: str | None
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "name": "Shop name",
+                    "description": "Shop description",
+                    "mobile": "09301111111",
+                    "address": "Shop address",
+                    "is_physical": True,
+                    "category_id": "01F8MECHZX3TBDSZ7XRADM79XV",
+                }
+            ]
+        }
+    }
+
+
 class ShopUpdate(BaseModel):
     name: str | None = None
     description: str | None = None
@@ -28,6 +52,7 @@ class ShopUpdate(BaseModel):
         return value
 
     model_config = {
+        "orm_mode": True,
         "json_schema_extra": {
             "examples": [
                 {
@@ -39,5 +64,5 @@ class ShopUpdate(BaseModel):
                     "category_id": "01F8MECHZX3TBDSZ7XRADM79XV",
                 }
             ]
-        }
+        },
     }
