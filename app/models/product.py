@@ -19,6 +19,13 @@ class Product(BaseModel):
 
     is_active = fields.BooleanField(default=True)
 
+    category = fields.ForeignKeyField(
+        "models.ProductCategory",
+        related_name="category_products",
+        on_delete=fields.SET_NULL,
+        null=True,
+    )
+
     class Meta:
         table = "products"
 

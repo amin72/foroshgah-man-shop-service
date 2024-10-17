@@ -25,3 +25,17 @@ class ShopCategory(Category):
 
     class Meta:
         table = "shop_categories"
+
+
+class ProductCategory(Category):
+    """Model to represent product-categories."""
+
+    shop_category = fields.ForeignKeyField(
+        "models.ShopCategory",
+        related_name="product_categories",
+        on_delete=fields.SET_NULL,
+        null=True,
+    )
+
+    class Meta:
+        table = "product_categories"
