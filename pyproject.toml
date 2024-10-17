@@ -3,7 +3,6 @@ tortoise_orm = "app.core.config.TORTOISE_ORM"
 location = "./migrations"
 src_folder = "./."
 
-
 [tool.mypy]
 strict = true
 exclude = ["venv", ".venv", "migrations"]
@@ -66,3 +65,6 @@ pre-commit = "^3.8.0"
 ulid-py = "^1.1.0"
 aerich = "^0.7.2"
 asyncpg = "^0.29.0"
+aio-pika = "^9.4.3"
+pyjwt = "^2.9.0"
+phonenumbers = "^8.13.47"

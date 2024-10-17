@@ -65,7 +65,7 @@ class Settings(BaseSettings):
     SENTRY_DSN: HttpUrl | None = None
 
     POSTGRES_HOST: str = "localhost"
-    POSTGRES_DB: str = "user_service_db"
+    POSTGRES_DB: str = "shop_service_db"
     POSTGRES_USER: str = "username"
     POSTGRES_PASSWORD: str = "password"
     POSTGRES_PORT: int = 5432
