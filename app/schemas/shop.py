@@ -52,7 +52,7 @@ class ShopUpdate(BaseModel):
         return value
 
     model_config = {
-        "orm_mode": True,
+        "from_attributes": True,
         "json_schema_extra": {
             "examples": [
                 {
