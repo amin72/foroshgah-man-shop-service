@@ -22,8 +22,7 @@ class Product(BaseModel):
     category = fields.ForeignKeyField(
         "models.ProductCategory",
         related_name="category_products",
-        on_delete=fields.SET_NULL,
-        null=True,
+        on_delete=fields.NO_ACTION,
     )
 
     class Meta:
