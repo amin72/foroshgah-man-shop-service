@@ -15,8 +15,9 @@ from starlette.middleware.cors import CORSMiddleware
 from tortoise.backends.base.config_generator import generate_config
 from tortoise.contrib.fastapi import RegisterTortoise
 
-from app.api.v1.endpoints import shop as shop_v1
 from app.api.v1.endpoints import category as category_v1
+from app.api.v1.endpoints import product as product_v1
+from app.api.v1.endpoints import shop as shop_v1
 from app.core.config import settings
 from app.core.logging_config import configure_logging
 from app.core.rate_limiter import limiter, rate_limit_exceeded_handler
@@ -34,8 +35,9 @@ app_v1 = FastAPI(
 
 
 # Include versioned routers
-app_v1.include_router(shop_v1.router, prefix="/shop", tags=["shop"])
 app_v1.include_router(category_v1.router, prefix="/category", tags=["category"])
+app_v1.include_router(product_v1.router, prefix="/product", tags=["product"])
+app_v1.include_router(shop_v1.router, prefix="/shop", tags=["shop"])
 
 
 @asynccontextmanager
