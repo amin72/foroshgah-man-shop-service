@@ -5,7 +5,12 @@ from tortoise.transactions import in_transaction
 from app.models.category import ProductCategory
 from app.models.product import Product
 from app.models.shop import Shop
-from app.schemas.product import ProductCreate, ProductReadPrivate, ProductUpdate
+from app.schemas.product import (
+    ProductCreate,
+    ProductDetailPrivate,
+    ProductListPrivate,
+    ProductUpdate,
+)
 from app.schemas.token import TokenData
 from app.utils import get_current_user
 
@@ -137,7 +142,7 @@ async def delete_product_api(
 @router.get("", status_code=status.HTTP_200_OK)
 async def list_my_product_api(
     user: TokenData = Depends(get_current_user),
-) -> list[ProductReadPrivate]:
+) -> list[ProductListPrivate]:
     """
     List user products API
     """
@@ -150,3 +155,25 @@ async def list_my_product_api(
     products = await Product.filter(shop_id=shop.id)
 
     return products
+
+
+@router.get("/{id}", status_code=status.HTTP_200_OK)
+async def my_product_detail_api(
+    id: str,
+    user: TokenData = Depends(get_current_user),
+) -> ProductDetailPrivate:
+    """
+    Get detail of user product API
+    """
+
+    shop = await Shop.get_or_none(owner_id=user.user_id)
+
+    if shop is None:
+        raise HTTPException(status_code=404, detail="Shop not found")
+
+    product = await Product.get_or_none(shop_id=shop.id, id=id)
+
+    if product is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    return product
