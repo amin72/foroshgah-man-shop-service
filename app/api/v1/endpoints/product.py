@@ -5,7 +5,7 @@ from tortoise.transactions import in_transaction
 from app.models.category import ProductCategory
 from app.models.product import Product
 from app.models.shop import Shop
-from app.schemas.product import ProductCreate, ProductUpdate
+from app.schemas.product import ProductCreate, ProductReadPrivate, ProductUpdate
 from app.schemas.token import TokenData
 from app.utils import get_current_user
 
@@ -127,3 +127,26 @@ async def delete_product_api(
     await product_obj.delete()
 
     return None
+
+
+# TODO:
+# 0. Implement pagination
+# 1. Implement filtering by is_active, category, price fields
+
+
+@router.get("", status_code=status.HTTP_200_OK)
+async def list_my_product_api(
+    user: TokenData = Depends(get_current_user),
+) -> list[ProductReadPrivate]:
+    """
+    List user products API
+    """
+
+    shop = await Shop.get_or_none(owner_id=user.user_id)
+
+    if shop is None:
+        raise HTTPException(status_code=404, detail="Shop not found")
+
+    products = await Product.filter(shop_id=shop.id)
+
+    return products

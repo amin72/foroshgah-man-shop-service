@@ -34,3 +34,14 @@ class ProductUpdate(BaseModel):
     category_id: str | None = None
 
     model_config = product_model_config
+
+
+class ProductReadPrivate(BaseModel):
+    id: str
+    name: str
+    description: str | None
+    price: int
+    is_active: bool
+    category_id: str
+
+    model_config = product_model_config
