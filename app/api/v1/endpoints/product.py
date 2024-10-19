@@ -13,21 +13,30 @@ router = APIRouter()
 
 
 @router.post("", response_model=ProductCreate)
-async def add_product(
+async def add_product_api(
     product: ProductCreate,
-    user: TokenData = Depends(get_current_user),  # noqa: ARG001
+    user: TokenData = Depends(get_current_user),
 ):
+    """
+    Create product API
+    """
+
     shop = await Shop.get_or_none(owner_id=user.user_id)
 
     if shop is None:
         raise HTTPException(status_code=404, detail="Shop not found")
 
-    # Validate the category if provided
-    if product.category_id:
-        category = await ProductCategory.get_or_none(id=product.category_id)
+    # Check category
+    product_category = await ProductCategory.get_or_none(id=product.category_id)
 
-        if category is None:
-            raise HTTPException(status_code=404, detail="Category not found")
+    if product_category is None:
+        raise HTTPException(status_code=404, detail="Category not found")
+
+    product_shop_category_id = (await product_category.shop_category).id
+    shop_category_id = (await shop.category).id
+
+    if product_shop_category_id != shop_category_id:
+        raise HTTPException(status_code=400, detail="Wrong category")
 
     async with in_transaction():
         new_product = await Product.create(
@@ -36,7 +45,7 @@ async def add_product(
             price=product.price,
             is_active=product.is_active,
             shop=shop,
-            category=category,
+            category=product_category,
         )
 
     return new_product
