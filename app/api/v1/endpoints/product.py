@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, status
 from tortoise.exceptions import DoesNotExist
 from tortoise.transactions import in_transaction
 
@@ -100,3 +100,30 @@ async def update_product_api(
     await product_obj.update_from_dict(product_data).save()
 
     return product_obj
+
+
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_product_api(
+    id: str,
+    user: TokenData = Depends(get_current_user),
+):
+    """
+    Delete product API
+    """
+
+    shop = await Shop.get_or_none(owner_id=user.user_id)
+
+    if shop is None:
+        raise HTTPException(status_code=404, detail="Shop not found")
+
+    product_obj = await Product.get_or_none(id=id)
+
+    if product_obj is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    if product_obj.shop_id != shop.id:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    await product_obj.delete()
+
+    return None
