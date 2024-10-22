@@ -64,3 +64,17 @@ async def home_api(
     }
 
     return result
+
+
+# TODO: Pagination
+
+
+@router.get("/{category_id}")
+async def list_shops_api(
+    category_id: str,
+    user: TokenData = Depends(get_current_user),  # noqa: ARG001
+) -> list[ShopList]:
+    """List shops in category API"""
+
+    shops = await Shop.filter(category_id=category_id, is_active=True)
+    return shops
