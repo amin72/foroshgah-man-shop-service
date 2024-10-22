@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 
 from app.models.category import Category
 from app.models.shop import Shop
-from app.schemas.shop import ShopUpdate, ShopReadPrivate
+from app.schemas.shop import ShopList, ShopUpdate, ShopReadPrivate
 from app.schemas.token import TokenData
 from app.utils import get_current_user
 
@@ -46,3 +46,35 @@ async def update_shop_api(
     await shop.update_from_dict(shop_data).save()
 
     return shop_data
+
+
+@router.get("/home")
+async def home_api(
+    user: TokenData = Depends(get_current_user),  # noqa: ARG001
+) -> dict[str, list[ShopList]]:
+    """Get shops for home API"""
+
+    newest_shops = await Shop.all().order_by("-id").limit(8)
+    newest_shops = list(newest_shops)
+    result = {
+        "newest": newest_shops,
+        "paid": [],
+        "starred": [],
+        "active": [],
+    }
+
+    return result
+
+
+# TODO: Pagination
+
+
+@router.get("/{category_id}")
+async def list_shops_api(
+    category_id: str,
+    user: TokenData = Depends(get_current_user),  # noqa: ARG001
+) -> list[ShopList]:
+    """List shops in category API"""
+
+    shops = await Shop.filter(category_id=category_id, is_active=True)
+    return shops
