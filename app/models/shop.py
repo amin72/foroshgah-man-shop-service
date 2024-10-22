@@ -25,6 +25,8 @@ class Shop(BaseModel):
         null=True,
     )
 
+    is_active = fields.BooleanField(default=True)
+
     class Meta:
         table = "shops"
 
