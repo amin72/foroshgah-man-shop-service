@@ -1,7 +1,10 @@
+from .category import ProductCategory, ShopCategory
+from .product import Product
 from .shop import Shop
-from .category import Category
 
 __all__ = (
+    "ShopCategory",
+    "ProductCategory",
     "Shop",
-    "Category",
+    "Product",
 )
