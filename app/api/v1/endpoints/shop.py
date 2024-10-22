@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
+from tortoise.expressions import Q
 
 from app.models.category import Category
 from app.models.shop import Shop
@@ -72,9 +73,15 @@ async def home_api(
 @router.get("/{category_id}")
 async def list_shops_api(
     category_id: str,
+    is_physical: bool | None = None,
     user: TokenData = Depends(get_current_user),  # noqa: ARG001
 ) -> list[ShopList]:
     """List shops in category API"""
 
-    shops = await Shop.filter(category_id=category_id, is_active=True)
+    filters = Q(category_id=category_id)
+
+    if is_physical is not None:
+        filters &= Q(is_physical=is_physical)
+
+    shops = await Shop.filter(filters)
     return shops
