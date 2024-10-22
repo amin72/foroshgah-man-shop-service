@@ -51,16 +51,16 @@ async def update_shop_api(
 @router.get("/home")
 async def home_api(
     user: TokenData = Depends(get_current_user),  # noqa: ARG001
-) -> list[list[ShopList]]:
+) -> dict[str, list[ShopList]]:
     """Get shops for home API"""
 
     newest_shops = await Shop.all().order_by("-id").limit(8)
     newest_shops = list(newest_shops)
-    result = [
-        newest_shops,
-        [],
-        [],
-        [],
-    ]
+    result = {
+        "newest": newest_shops,
+        "paid": [],
+        "starred": [],
+        "active": [],
+    }
 
     return result
